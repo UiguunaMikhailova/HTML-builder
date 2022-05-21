@@ -17,13 +17,12 @@ fs.readdir(folder, { withFileTypes: true }, (err, files) => {
     });
     files.forEach(file => {
       if (path.extname(file.name) === '.css') {
-        const name = file.name;
-        fs.readFile(`./05-merge-styles/styles/${name}`, 'utf-8', (err, dataFile) => {
+        fs.readFile(path.join(folder, file.name), 'utf-8', (err, dataFile) => {
           if (err) throw err;
           const data = dataFile.split('/n');
           arr.push(data);
           const data2 = arr.flat().join('');
-          fs.writeFile('./05-merge-styles/project-dist/bundle.css', data2, (err) => {
+          fs.writeFile(path.join(projectFolder, 'bundle.css'), data2, (err) => {
             if (err) throw err;
           });
         });

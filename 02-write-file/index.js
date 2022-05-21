@@ -1,24 +1,24 @@
 const fs = require('fs');
 const path = require('path');
+const pathFile = path.join(__dirname, 'text.txt');
 const {
-  stdout
+  stdout, stdin
 } = process;
 
-fs.open(path.join(__dirname, 'text.txt'), 'w', (err) => {
+fs.open(pathFile, 'w', (err) => {
   if (err) throw err;
 });
 
-stdout.write('Введите текст: ');
+stdout.write('Введите текст:  ');
 
-process.stdin.on('data', (data) => {
+stdin.on('data', (data) => {
   const str = data.toString();
   if (str.toLowerCase().trim() === 'exit') {
-    console.log('До новых встреч!');
-    process.exit();
+    process.emit('SIGINT');
   }
-  fs.appendFile(path.join(__dirname, 'text.txt'), `${str}`, function (err) {
+  fs.appendFile(pathFile, `${str}`, function (err) {
     if (err) throw err;
-    console.log('Если хотите, можете добавить ещё пару строчек. Либо завершите ctrl + c');
+    console.log('Добавьте текст, либо выйдите CTRL + C / exit:  ');
   });
 });
 
@@ -26,30 +26,3 @@ process.on('SIGINT', () => {
   console.log('До новых встреч!');
   process.exit(0);
 });
-
-// const fs = require('fs');
-// const path = require('path');
-// const {
-//   stdin,
-//   stdout
-// } = process;
-
-// fs.open(path.join(__dirname, 'text.txt'), 'w', (err) => {
-//   if (err) throw err;
-// });
-// stdout.write('Введите текст: ');
-
-
-// stdin.on('data', data => {
-//   const str = data.toString();
-//   const line = str.split(' ')[0];
-//   if (line === 'exit') return process.exit();
-//   fs.appendFile(path.join(__dirname, 'text.txt'), `${str}`, function (err) {
-//     if (err) throw err;
-//     console.log('Если хотите, можете добавить ещё пару строчек. Либо завершите ctrl + c');
-//   });
-// });
-// process.on('SIGINT', () => {
-//   console.log('До новых встреч!');
-//   process.exit(0);
-// });
