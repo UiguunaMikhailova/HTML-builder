@@ -92,6 +92,10 @@ async function createHTML() {
       const pathStreamComponents = path.join(__dirname, 'components', `${name}.html`);
       let rsComponents;
       rsComponents = fs.createReadStream(pathStreamComponents);
+      rsComponents.on('error', () => {
+        console.log('Не найден компонент из template.html в папке components');
+        process.exit(0);
+      });
       await pipeComponent(rsComponents, output);
       output.write('\n');
     } else {
