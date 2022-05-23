@@ -65,9 +65,9 @@ const createStyles = async (pathStyles, pathProjectFolder) => {
         if (path.extname(file.name) === '.css') {
           fs.readFile(path.join(stylesFolder, file.name), 'utf-8', (err, dataFile) => {
             if (err) throw err;
-            const data = dataFile.split('/n');
+            const data = dataFile.split('\n');
             arr.push(data);
-            const data2 = arr.flat().join('');
+            const data2 = arr.flat().join('\n');
             fs.writeFile(path.join(projectFolder, 'style.css'), data2, (err) => {
               if (err) throw err;
             });
