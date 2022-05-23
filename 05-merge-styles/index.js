@@ -16,7 +16,7 @@ fs.readdir(folder, { withFileTypes: true }, (err, files) => {
       }
     });
     files.forEach(file => {
-      if (path.extname(file.name) === '.css') {
+      if (path.extname(file.name) === '.css' && file.isFile()) {
         fs.readFile(path.join(folder, file.name), 'utf-8', (err, dataFile) => {
           if (err) throw err;
           const data = dataFile.split('\n');
